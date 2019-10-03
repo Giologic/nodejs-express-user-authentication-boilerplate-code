@@ -19,7 +19,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const connectWithRetry = () => {
-  mongoose.connect(`mongodb://${config.dbUser}:${encodeURIComponent(config.dbPassword)}@${config.dbUrl}:${config.dbPort}/${config.dbName}`, config.mongooseOptions).then(()=>{
+  mongoose.connect(
+    config.dbUrl, config.mongooseOptions).then(()=>{
     console.log('MongoDB is connected')
   }).catch(err=>{
     console.log('MongoDB connection unsuccessful, retry after 5 seconds.')

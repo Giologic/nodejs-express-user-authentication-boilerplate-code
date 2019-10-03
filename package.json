@@ -6,15 +6,20 @@
   "scripts": {
     "start": "node src/index.js"
   },
+  "respository": {
+    "type": "git",
+    "url": "git+https://github.com/Giologic/nodejs-express-user-authentication-boilerplate-code.git"
+  },
   "author": "Proudcloud Deep Tech Team",
   "license": "MIT",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "@hapi/joi": "^16.1.5",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "joi": "^14.3.1",
+    "mongo-seeding": "^3.3.0",
     "mongoose": "^5.7.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0"

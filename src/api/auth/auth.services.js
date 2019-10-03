@@ -1,5 +1,5 @@
 // auth.services.js
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const baseConfig = require('../../config/base-config')
 const User = require('../users/users.models')
