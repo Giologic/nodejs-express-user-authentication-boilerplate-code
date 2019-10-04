@@ -7,43 +7,50 @@ This respository serves as boilerplate code for implementing user authentication
 This boilerplate uses the following tech stack:
 * Node JS
 * Express JS Framework (REST API Framework)
-* Mlab Mongoose (Database)
+* MongoDB (Database)
 * Passport JS (Authentication)
 ___
 
 
 ## Installation and Configuration
-Use the node package manager to install the boilerplate code project
-
+To setup the application
 ```bash
-npm install
+docker-compose build
 ```
 You will need to setup the hostname and the port that your boilerplate will be using.
 
 ```sh
 # .env
-HOSTNAME=<Server Hostname>
-PORT=<Server Port>
+PORT=5000
 ```
 
-The boilerplate code uses Mlab (MongoDB cloud service) as the database. All of which, will be provided once you create a database instance in the MLab web application. You will need to configure your settings as follows:
+The boilerplate code uses a docker image to host mongo as the database. You will need to configure your settings as follows:
 
 ```sh
 # .env
-HOSTNAME=<Server Hostname>
-PORT=<Server Port>
+DB_URL=mongodb://mongo:27017/boilerplate_db
+```
 
-DB_USER=<Database User>
-DB_PASSWORD=<Database Password>
-DB_PORT=<Database Port>
-DB_NAME=<Database Name>
-DB_URL=<Database URL>
+The authentication system of this boilerplate uses bcrypt for hashing passwords. The JWT Secret is used as a reference in hashing the passwords.
+```sh
+JWT_SECRET=ptFq8OEjvKZ3QFABWsTKGON8nsJikkE9PC1
 ```
 
 ## Usage
-Run your application using the node package manager
+Run your application using docker
 ```bash
-npm start
+docker-compose up
+```
+
+The application automatically seeds the users through docker-compose. You may remove or comment this to remove automatic seeding.
+
+```yml
+# docker-compose.yml
+seed:
+    build: .
+    command: npm run seed
+    depends_on:
+      - mongo
 ```
 
 ### Endpoints
@@ -111,6 +118,32 @@ Output
   "lastName": "Account",
   "email": "test@gmail.com"
 }
+```
+
+##### Get current user
+GET /api/v1/users
+
+Input
+```json
+{}
+```
+
+Output
+```json
+[
+    {
+        "id": "5d96f96e0c91c5001123a1c0",
+        "firstName": "Gio",
+        "lastName": "Velez",
+        "email": "gio@test.com"
+    },
+    {
+        "id": "5d96f96e0c91c5001123a1c1",
+        "firstName": "JP",
+        "lastName": "Tan",
+        "email": "jp@test.com"
+    }
+]
 ```
 
 ## Contributing
