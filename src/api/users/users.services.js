@@ -8,3 +8,7 @@ exports.getMe = async function(userId) {
   }
   return user
 }
+
+exports.getUsers = async function(query) {
+  return await User.find(query);
+}

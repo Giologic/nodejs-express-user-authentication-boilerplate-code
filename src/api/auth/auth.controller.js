@@ -1,64 +1,78 @@
-const AuthService = require('../auth/auth.services')
+var User = require('../users/users.models')
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
+const config = require('../../config/base-config')
 
-/*
-* Registers a user if the user does not exist
-*/
-exports.register = async function(request, response, next) {
-  const data = request.body
-  let serializedData;
 
-  try {
-    AuthService.validateUserRegistration(data)
-  } catch (error) {
-    return response.status(422).send({"error": error.message })
-  }
+const loginSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).required(),
+});
 
-  try {
-    await AuthService.checkDuplicateUser(data)
-  } catch (error) {
-    return response.status(302).send({"error": error.message })
-  }
+const registerSchema = Joi.object().keys({
+  firstName: Joi.string(),
+  lastName: Joi.string(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).required(),
+  confirmPassword: Joi.string().min(8).required(),
+});
 
-  try {
-    AuthService.checkIfPasswordsNotMatching(data)
-  } catch (error) {
-    return response.status(422).send({"error": error.message })
-  }
+exports.register = async function(request, response) {
+  const firstName = request.body.firstName
+  const lastName = request.body.lastName
+  const email = request.body.email
+  const password = request.body.password
 
   try {
-    serializedData = await AuthService.createUserSerialized(data)
+    const body = await Joi.validate(request.body, registerSchema);
+    if (body.error) {
+      return response.status(422).send(body.error);
+    }
+    const userExists = await User.find({ email: body.email })
+    if(userExists.length === 0 ) {
+      if (body.confirmPassword === body.password) {
+        const user = await User.create({
+          firstName,
+          lastName,
+          email,
+          password
+        });
+        return response.status(201).send(user.toJSON());
+      } else {
+        return response.status(422).send({"error": "Passwords do not match"})
+      }
+    } else {
+      return response.status(302).send({"error": "Email has already been taken"})
+    }
   } catch (error) {
-    return response.status(400).send({"error": error.message })
+    return response.status(422).send(error)
   }
-  return response.status(201).send(serializedData);
 };
 
-/*
-* Login using username and password
-*/
 exports.login = async function (request, response) {
-  const data = request.body
-  let serializedData
-  let user
-
   try {
-    AuthService.validateUserLogin(data)
+    const body = await Joi.validate(request.body, loginSchema);
+    if (body.error) {
+      return response.status(400).send(validate.error);
+    }
+    const user = await User.findOne({ email: body.email });
+    if (!user) {
+      return response.status(404).send({ message: 'User not found' });
+    }
+    const passwordMatch = await user.comparePassword(body.password.toString());
+    if (!passwordMatch) {
+      return response.status(422).send({ message: 'Invalid password' });
+    }
+    const payload = {
+      id: user.id,
+      iat: new Date().getTime(),
+    };
+    const token = jwt.sign(payload, config.jwtSecret);
+    return response.status(200).send({
+      message: 'Successfully Logged in',
+      token: `Bearer ${token}`,
+    });
   } catch (error) {
-    return response.status(422).send({"error": error.message })
+    return response.status(400).send(error);
   }
-
-  try {
-    user = await AuthService.checkIfUserExists(data)
-  } catch (error) {
-    return response.status(404).send({"error": error.message })
-  }
-
-  try {
-    await AuthService.checkIfPasswordsMatch(user, data.password)
-  } catch(error) {
-    return response.status(422).send({"error": error.message });
-  }
-
-  serializedData = AuthService.createTokenSerialized(user)
-  return response.status(200).send(serializedData);
 }

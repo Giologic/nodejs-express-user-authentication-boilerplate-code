@@ -6,11 +6,13 @@ var cors = require('cors')
 var passport = require('passport')
 var config = require('./config/base-config')
 var passportConfig = require('./config/passport-config')
+var morgan = require('morgan');
 
 var router = express.Router()
 const app = express()
 
 
+app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false  }))
 
@@ -48,4 +50,4 @@ app.get('/', (request, response) => {
   })
 })
 
-app.listen(config.serverPort, config.hostName, () => console.log(`Server running at ${config.hostName}:${config.serverPort}`))
+app.listen(config.serverPort, () => console.log(`Server running!`))

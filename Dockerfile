@@ -1,5 +1,5 @@
 # Docker Hub Base Image
-FROM mhart/alpine-node:latest
+FROM nikolaik/python-nodejs:latest
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install

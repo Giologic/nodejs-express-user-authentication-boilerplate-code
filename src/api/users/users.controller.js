@@ -13,5 +13,12 @@ exports.getMe = async function(request, response, next) {
   } catch (error) {
     return response.status(400).send({ error: error })
   }
+}
 
+/*
+* Retrieve current user
+*/
+exports.getUsers = async function(request, response, next) {
+  const users = await UserService.getUsers({});
+  return response.status(200).send(users);
 }
