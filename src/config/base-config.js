@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  serverHost: process.env.SERVER_HOST,
   serverPort: process.env.PORT,
   jwtSecret: process.env.JWT_SECRET,
   dbUrl: process.env.DB_URL,

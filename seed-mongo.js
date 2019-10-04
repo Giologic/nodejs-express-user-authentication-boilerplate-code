@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('./src/config/base-config')
 const Logger = require('./src/logger/logger')
-
+const faker = require('faker')
 
 const User = require('./src/api/users/users.models');
 
@@ -20,18 +20,18 @@ try {
   Logger.warn(error)
 }
 
-User.create([{
-  firstName: 'Gio',
-  lastName: 'Velez',
-  email: 'gio@test.com',
-  password: 'gio12345'
-}, {
-  firstName: 'JP',
-  lastName: 'Tan',
-  email: 'jp@test.com',
-  password: 'jp123456'
-}])
+generatedUsers = []
 
+for(let i = 0; i < 5; i++) {
+  generatedUsers.push({
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: "password",
+  })
+}
+
+User.create(generatedUsers)
 .then(user => {
   console.log(`${user.length} users created`);
 })
