@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
-const config = require('./src/config/base-config')
-const Logger = require('./src/logger/logger')
 const faker = require('faker')
+const db = require('./src/db/index')
 
+const Logger = require('./src/logger/logger')
 const User = require('./src/api/users/users.models');
 
-mongoose.connect(
-  config.dbUrl, config.mongooseOptions).then(()=>{
-  Logger.debug('MongoDB is connected')
-}).catch(err=>{
-  Logger.error('MongoDB connection unsuccessful, retry after 5 seconds.')
-  Logger.error('Error', err)
-  setTimeout(connectWithRetry, config.port)
-})
+db.connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`Listening on port ${PORT}, Initialize seeding...`))
+  })
+  .catch((error) => console.log(`Unable to connect to MongoDB server`))
+
+
 
 try {
   User.collection.drop();

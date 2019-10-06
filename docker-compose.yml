@@ -11,6 +11,7 @@ services:
     depends_on:
       - mongo
 
+
   web_app:
     build: .
     command: npm run start
@@ -20,6 +21,6 @@ services:
       - 5000:5000
     depends_on:
       - mongo
-      
+
 networks:
   default: 
