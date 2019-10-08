@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
+    "start:staging": "NODE_ENV=staging && node src/server.js",
+    "start:dev": "NODE_ENV=development && node src/server.js",
     "seed": "node seed-mongo.js",
-    "test": "mocha --timeout 120000 --recursive --exit"
+    "test": "NODE_ENV=test && mocha --timeout 120000 --recursive --exit"
   },
   "respository": {
     "type": "git",
@@ -15,6 +17,7 @@
   "author": "Proudcloud Deep Tech Team",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.544.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",

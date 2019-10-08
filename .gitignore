@@ -3,4 +3,4 @@
 /mongo-volume
 /data
 .env
-
+secrets.json
