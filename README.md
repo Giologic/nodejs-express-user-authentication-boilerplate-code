@@ -36,6 +36,16 @@ The authentication system of this boilerplate uses bcrypt for hashing passwords.
 JWT_SECRET=ptFq8OEjvKZ3QFABWsTKGON8nsJikkE9PC1
 ```
 
+You may also opt to retrieve from your .env files from the AWS Secrets Manager. If this is the case make sure you have an IAM set in your aws-cli. We have provided a shell script in this repo to automatically append the key-value configurations to your .env file.
+
+In order to execute the command below, you may want to install `jq` and `aws-cli` first.
+
+```sh
+source configure-env.sh
+```
+
+Your .env file should automatically containt your configurations.
+
 ## Usage
 Run your application using docker
 ```bash
@@ -46,11 +56,11 @@ The application automatically seeds the users through docker-compose. You may re
 
 ```yml
 # docker-compose.yml
+
 seed:
-    build: .
+    <<: *app_base
+    ports: []
     command: npm run seed
-    depends_on:
-      - mongo
 ```
 
 ### Endpoints
