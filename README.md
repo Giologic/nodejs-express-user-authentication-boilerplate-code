@@ -41,7 +41,7 @@ You may also opt to retrieve from your .env files from the AWS Secrets Manager. 
 In order to execute the command below, you may want to install `jq` and `aws-cli` first.
 
 ```sh
-source configure-env.sh
+source configure-env.sh <secret file name>
 ```
 
 Your .env file should automatically containt your configurations.
