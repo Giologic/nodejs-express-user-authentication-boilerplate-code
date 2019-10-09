@@ -1,0 +1,1 @@
+ecs-cli configure --cluster ecs-boilerplate --default-launch-type EC2 --config-name ecs-boilerplate --region ap-southeast-1

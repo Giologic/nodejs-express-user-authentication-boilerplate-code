@@ -4,6 +4,7 @@ This respository serves as boilerplate code for implementing user authentication
 
 ## Specifications
 
+
 This boilerplate uses the following tech stack:
 * Node JS
 * Express JS Framework (REST API Framework)
@@ -12,6 +13,13 @@ This boilerplate uses the following tech stack:
 ___
 
 
+### Prerequisites
+* aws-cli 
+* amazon-ecs-cli
+
+```bash
+ecs-cli configure profile --access-key AWS_ACCESS_KEY_ID --secret-key AWS_SECRET_ACCESS_KEY --profile-name ec2-boilerplate-profile
+```
 ## Installation and Configuration
 To setup the application
 ```bash
