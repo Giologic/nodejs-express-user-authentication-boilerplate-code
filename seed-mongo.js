@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const faker = require('faker')
-const db = require('./src/db/index')
+const db = require('./node-app/db/index')
 
-const Logger = require('./src/logger/logger')
-const User = require('./src/api/users/users.models');
+const Logger = require('./node-app/logger/logger')
+const User = require('./node-app/api/users/users.models');
 
 db.connect()
   .then(() => {

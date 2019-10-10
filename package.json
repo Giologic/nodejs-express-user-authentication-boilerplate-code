@@ -4,9 +4,9 @@
   "description": "This respository serves as boilerplate code for implementing user authentication with Node JS and Express JS.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "start:staging": "NODE_ENV=staging && node src/server.js",
-    "start:dev": "NODE_ENV=development && node src/server.js",
+    "start": "node node-app/server.js",
+    "start:staging": "NODE_ENV=staging && node node-app/server.js",
+    "start:dev": "NODE_ENV=development && node node-app/server.js",
     "seed": "node seed-mongo.js",
     "test": "NODE_ENV=test && mocha --timeout 120000 --recursive --exit"
   },

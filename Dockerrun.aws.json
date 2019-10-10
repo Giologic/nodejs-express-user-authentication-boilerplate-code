@@ -2,7 +2,7 @@
   "AWSEBDockerrunVersion": 2,
   "volumes": [
     {
-      "name": "php-app",
+      "name": "node-app",
       "host": {
         "sourcePath": "/var/app/current/php-app"
       }
@@ -12,23 +12,32 @@
       "host": {
         "sourcePath": "/var/app/current/proxy/conf.d"
       }
+    },
+    {
+      "name": "mongo",
+      "host": {
+        "sourcePath": "/var/data/mongo"
+      }
     }
   ],
   "containerDefinitions": [
     {
-      "name": "php-app",
-      "image": "php:fpm",
+      "name": "node-app",
+      "image": "nikolaik/python-nodejs:latest",
       "environment": [
         {
           "name": "Container",
-          "value": "PHP"
+          "value": "NodeJS"
         }
+      ],
+      "links": [
+        "database"
       ],
       "essential": true,
       "memory": 128,
       "mountPoints": [
         {
-          "sourceVolume": "php-app",
+          "sourceVolume": "node-app",
           "containerPath": "/var/www/html",
           "readOnly": true
         }
@@ -46,11 +55,11 @@
         }
       ],
       "links": [
-        "php-app"
+        "node-app"
       ],
       "mountPoints": [
         {
-          "sourceVolume": "php-app",
+          "sourceVolume": "node-app",
           "containerPath": "/var/www/html",
           "readOnly": true
         },
@@ -62,6 +71,25 @@
         {
           "sourceVolume": "awseb-logs-nginx-proxy",
           "containerPath": "/var/log/nginx"
+        }
+      ]
+    },
+    {
+      "name": "database",
+      "image": "mongo",
+      "environment": [
+        {
+          "name": "Container",
+          "value": "MongoDB"
+        }
+      ],
+      "essential": true,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": ".",
+          "containerPath": "/var/data",
+          "readOnly": true
         }
       ]
     }

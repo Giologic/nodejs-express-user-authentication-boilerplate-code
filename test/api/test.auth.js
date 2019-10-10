@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const request = require('supertest')
 
-const app = require('../../src/app');
-const conn = require('../../src/db/index');
+const app = require('../../node-app/app');
+const conn = require('../../node-app/db/index');
 
 const helper = require('../helper')
 
